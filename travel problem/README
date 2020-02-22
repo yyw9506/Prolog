@@ -1,0 +1,96 @@
+Organizing a trip
+Implement the following problem in XSB Prolog and submit it as trip.pl file. Use the latest release version of XSB here: http://xsb.sourceforge.net/downloads/downloads.html . Your program must work on this XSB Prolog. If you are using a Mac or Linux, you can either compile XSB for Linux as described in the lecture notes: http://www3.cs.stonybrook.edu/~pfodor/Prolog.pdf or you can use my precompiled XSB from here: http://www3.cs.stonybrook.edu/~pfodor/precompiledXSB/
+
+We want to organize a visit to New York City for attendees of a conference. There are various activities (the set A of all possible activities) for this visit and multiple tour operators may offer a group of activities as a package for some price: an operator O offers a package P some units of various activities (a,u) where a∈A and u∈U for a price Price (a positive integer) where U represents positive integers as numbers of units of activities. For example, an operator may offer 1 unit of activity Central Park hike and 2 units of Central Park cycle as a package for $200.
+
+We contact tour operators and collect their offers. Considering the number of the attendees, we wants to book specific number of units of various activities; for example 3 units of hike, 1 unit of cycle and 2 units of walk. An offer of a tour operator can be accepted only as a whole and not more than once. Considering all the accepted offers, if there are more units of an activity than needed, the surplus can be freely disposed. We also want to minimize the cost of the visit. Additionally, we accept at most K offers from one tour operator to reduce the chance of eventual problems with an operator (e.g., if the operator goes out of business).
+
+Input format:
+An input file contains facts of the following kinds:
+
+- offer(O,P,A,U) facts indicating that tour operator O offers a package P that includes U units of activity A. For example, if we have only two facts offer(1,1,1,2) and offer(1,1,2,3) related to the tour operator 1 and their package 1, that package is composed of 2 units of activity 1 and 3 units of activity 2.
+
+- price(O,P,Price) facts indicating that operator O offers a package P for price Price.
+
+- need(A,U) facts indicating that we need to book U units of activity A.
+
+- max_accepted_offer(K) specifying K as the maximum number of offers that can be booked from each tour operator.
+
+Assume that all instances satisfiable.
+
+Output format:
+The output should contain exactly one fact of the form total_cost(C), where C is the minimum total cost of the visit satisfying the requirements.
+
+Example 1:
+% packages of operator 1
+offer(1,1,1,1).
+offer(1,1,2,2).
+price(1,1,8).
+% packages of operator 2
+offer(2,1,2,1).
+offer(2,1,3,1).
+price(2,1,9).
+
+offer(2,2,3,2).
+offer(2,2,4,1).
+price(2,2,10).
+% packages of operator 3
+offer(3,1,3,1).
+offer(3,1,4,1).
+price(3,1,6).
+% needs
+need(2,1).
+need(3,3).
+need(4,1).
+maxacceptedoffer(1).
+
+Output:
+?- totalcost(X).
+X=24
+
+Accepted offers: package 1 of tour operator 1, package 2 of tour operator 2, package 1 of tour operator 3.
+
+Example 2:
+offer(1,1,1,1).
+offer(1,1,3,1).
+offer(1,1,4,1).
+price(1,1,7).
+
+offer(1,2,2,2).
+offer(1,2,5,1).
+price(1,2,7).
+
+offer(2,1,3,2).
+price(2,1,3).
+
+offer(2,2,1,2).
+offer(2,2,2,1).
+offer(2,2,3,2).
+offer(2,2,5,2).
+price(2,2,9).
+
+offer(2,3,4,2).
+price(2,3,4).
+
+offer(3,1,1,3).
+offer(3,1,2,1).
+offer(3,1,3,2).
+price(3,1,5).
+
+offer(3,2,2,2).
+offer(3,2,4,2).
+price(3,2,5).
+
+maxacceptedoffer(2).
+
+need(1,3).
+need(2,2).
+need(3,4).
+need(4,1).
+need(5,3).
+
+Output:
+?- totalcost(X).
+X=25
+
+Accepted offers: package 2 of tour operator 1, package 2 of tour operator 2, package 3 of tour operator 2, package 1 of tour operator 3.
